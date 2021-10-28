@@ -1,0 +1,35 @@
+Computing indices for L01/DataSet1.csv
+Start time: 8
+End time: 1031
+Arrival rate and throughput: 0.096993
+Busy time: 688
+Utilization: 0.667313
+W: 849
+Average service time: 6.880000
+Average number of jobs: 0.823472
+Average response time: 8.490000
+Probability of having no job in the station: 0.332687
+Probability of having 1 job in the station: 0.520854
+Probability of having 2 jobs in the station: 0.136760
+Probability of having 3 jobs in the station: 0.009699
+Probability of having a response time less than 1: 0.000000
+Probability of having a response time less than 10: 0.620000
+Probability of having a response time less than 50: 1.000000
+---
+Computing indices for L01/DataSet2.csv
+Start time: 0
+End time: 1032
+Arrival rate and throughput: 0.095930
+Busy time: 826
+Utilization: 0.800388
+W: 8679
+Average service time: 8.343434
+Average number of jobs: 8.409884
+Average response time: 87.666667
+Probability of having no job in the station: 0.199612
+Probability of having 1 job in the station: 0.041667
+Probability of having 2 jobs in the station: 0.039729
+Probability of having 3 jobs in the station: 0.029070
+Probability of having a response time less than 1: 0.010101
+Probability of having a response time less than 10: 0.060606
+Probability of having a response time less than 50: 0.232323
