@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 import statistics
 import matplotlib.pyplot as plt
+import statsmodels.tsa.stattools as stattools
 
 def read_dataset(file_name):
     file = open(file_name)
@@ -39,36 +40,16 @@ def run():
     cv = standard_deviation / avg_inter_arrival_time
     print("Coefficient of variation: %f" % cv)
 
-    # Compute covariance
-    x = list()
-    y = list()
-    for i in range(0, len(inter_arrival_times)-1):
-        x.append(inter_arrival_times[i])
-        y.append(inter_arrival_times[i+1])
-
-    def covariance(x, y):
-        # Finding the mean of the series x and y
-        mean_x = sum(x)/float(len(x))
-        mean_y = sum(y)/float(len(y))
-        # Subtracting mean from the individual elements
-        sub_x = [i - mean_x for i in x]
-        sub_y = [i - mean_y for i in y]
-        numerator = sum([sub_x[i]*sub_y[i] for i in range(len(sub_y))])
-        denominator = len(x)-1
-        cov = numerator/denominator
-        return cov
-
-    #covariance = stattools.acovf(inter_arrival_times, fft=False, nlag=1)[1]
-    covariance = covariance(x, y)
-    #covariance = numpy.cov(x, y)[0,1]
+    # Compute covariance (sigma=1)
+    covariance = stattools.acovf(inter_arrival_times, fft=False, nlag=1)[1]
     print("Correlation: %f" % covariance)
 
     # Plotting x and y to show correlation
-    #plt.scatter(x, y, s = 2)
-    #plt.xlim(left=0)
-    #plt.ylim(bottom=0)
-    #plt.show()
-    #input()
+    plt.scatter(x, y, s=2)
+    plt.xlim(left=0)
+    plt.ylim(bottom=0)
+    plt.show()
+    input()
 
 if __name__ == '__main__':
     run()
