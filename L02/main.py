@@ -40,12 +40,20 @@ def run():
     cv = standard_deviation / avg_inter_arrival_time
     print("Coefficient of variation: %f" % cv)
 
-    # Compute covariance (sigma=1)
+    # Compute covariance (sigma(1))
     covariance = stattools.acovf(inter_arrival_times, fft=False, nlag=1)[1]
     print("Correlation: %f" % covariance)
 
+    # Alternative computation of covariance (sigma(1))
+    cumul = 0
+    for i in range(0, len(inter_arrival_times)-1):
+        cumul += (inter_arrival_times[i] -
+                  avg_inter_arrival_time) * (inter_arrival_times[i+1] - avg_inter_arrival_time)
+    covariance = cumul / (len(inter_arrival_times)-1)
+    print("Correlation (approximated): %f" % covariance)
+
     # Plotting x and y to show correlation
-    plt.scatter(x, y, s=2)
+    plt.scatter(inter_arrival_times[0:-2], inter_arrival_times[1:-1], s=2)
     plt.xlim(left=0)
     plt.ylim(bottom=0)
     plt.show()
