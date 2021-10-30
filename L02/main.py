@@ -15,8 +15,9 @@ def read_dataset(file_name):
     file.close()
     return dataset
 
-def run():
-    dataset = read_dataset("L02/Log1.txt")
+def compute(file_name):
+    print("Computing indices for %s" % file_name)
+    dataset = read_dataset(file_name)
     
     # Compute inter arrival times
     inter_arrival_times = list()
@@ -57,7 +58,13 @@ def run():
     plt.xlim(left=0)
     plt.ylim(bottom=0)
     plt.show()
-    input()
+    input("Press enter to continue")
+
+def run():
+    compute("L02/Log1.txt")
+    compute("L02/Log2.txt")
+    compute("L02/Log3.txt")
+    compute("L02/Log4.txt")
 
 if __name__ == '__main__':
     run()
