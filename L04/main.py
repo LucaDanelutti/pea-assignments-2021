@@ -65,8 +65,8 @@ def compute_moments(file_name, webserver_id):
     uniform = (x - a) / (b - a)
     exponential = 1 - np.power(np.e, - (exponential_lambda * x))
     hyperexponential = 1 - \
-        0.4 * np.power(np.e, - (hyper_lambda1 * x)) - \
-        0.6 * np.power(np.e, - (hyper_lambda2 * x))
+        p * np.power(np.e, - (hyper_lambda1 * x)) - \
+        (1-p) * np.power(np.e, - (hyper_lambda2 * x))
     hypoexponential = 1 - \
         (hypo_lambda2 * np.power(np.e, - (hypo_lambda1 * x))) / (hypo_lambda2 - hypo_lambda1) + \
         (hypo_lambda1 * np.power(np.e, - (hypo_lambda2 * x))) / (hypo_lambda2 - hypo_lambda1)
@@ -85,6 +85,7 @@ def compute_moments(file_name, webserver_id):
     plt.plot(x, exponential, label="Exp")
     plt.plot(x, hyperexponential, label="Hyperexp")
     plt.plot(x, hypoexponential, label="Hypoexp")
+    plt.xlim(left=-15, right=50)
     plt.ylim(bottom=0, top=1)
     plt.legend()
     plt.show()
@@ -138,8 +139,8 @@ def compute_maximum_likelihood(file_name, webserver_id):
     x = np.linspace(0, 50, 5000)
     exponential = 1 - np.power(np.e, - (exponential_lambda * x))
     hyperexponential = 1 - \
-        0.4 * np.power(np.e, - (hyper_lambda1 * x)) - \
-        0.6 * np.power(np.e, - (hyper_lambda2 * x))
+        p * np.power(np.e, - (hyper_lambda1 * x)) - \
+        (1-p) * np.power(np.e, - (hyper_lambda2 * x))
     hypoexponential = 1 - \
         (hypo_lambda2 * np.power(np.e, - (hypo_lambda1 * x))) / (hypo_lambda2 - hypo_lambda1) + \
         (hypo_lambda1 * np.power(np.e, - (hypo_lambda2 * x))) / \
@@ -159,15 +160,16 @@ def compute_maximum_likelihood(file_name, webserver_id):
     plt.plot(x, exponential, label="Exp")
     plt.plot(x, hyperexponential, label="Hyperexp")
     plt.plot(x, hypoexponential, label="Hypoexp")
+    plt.xlim(left=-15, right=50)
     plt.ylim(bottom=0, top=1)
     plt.legend()
     plt.show()
     input("Press enter to continue")
 
 def run():
-    compute_maximum_likelihood("L04/Traces.csv", 1)
+    compute_maximum_likelihood("L04/Traces.csv", 3)
     print("---")
-    compute_moments("L04/Traces.csv", 1)
+    compute_moments("L04/Traces.csv", 3)
 
 if __name__ == '__main__':
     run()
