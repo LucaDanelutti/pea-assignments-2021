@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import matlab.engine
+from scipy import optimize as opt
 
 def read_dataset(file_name, webserver_id):
     file = open(file_name)
@@ -25,11 +26,8 @@ def compute_moments(file_name, webserver_id):
 
     # Read dataset and cast values 
     dataset = read_dataset(file_name, webserver_id)
-    
-    # Fit data against uniform, exponential, hyperexponential, hypoexponential using moments
-    print("Using moments:")
-    
-    # Uniform: a and b
+
+    # Compute usefull moments
     def moment(n):
         cumul = 0
         for time in dataset:
@@ -37,6 +35,12 @@ def compute_moments(file_name, webserver_id):
         return cumul / len(dataset)
     first_moment = moment(1)
     second_moment = moment(2)
+    third_moment = moment(3)
+    
+    # Fit data against uniform, exponential, hyperexponential, hypoexponential using moments
+    print("Using moments:")
+    
+    # Uniform: a and b
     a = first_moment - 0.5 * pow((12*(second_moment-pow(first_moment, 2))), 0.5)
     b = first_moment + 0.5 * pow((12*(second_moment-pow(first_moment, 2))), 0.5)
     print("Uniform | a: %f" % a)
@@ -47,29 +51,50 @@ def compute_moments(file_name, webserver_id):
     print("Exponential | lambda: %f" % exponential_lambda)
 
     # Hyperexponential: p, lambda1, lambda2
-    p = 0.4
-    hyper_lambda1 = 0.8 / first_moment
-    hyper_lambda2 = 1.2 / first_moment
-    print("Hyperexponential | p: %f" % p)
-    print("Hyperexponential | lambda1: %f" % hyper_lambda1)
-    print("Hyperexponential | lambda2: %f" % hyper_lambda2)
+    hyper_p_start = 0.4
+    hyper_lambda1_start = 0.8 / first_moment
+    hyper_lambda2_start = 1.2 / first_moment
+    def hyper_eqs(params, *moments):
+        p = params[0]
+        l1 = params[1]
+        l2 = params[2]
+        m1, m2, m3 = moments
+        fun1 = ((p/l1 + (1-p)/l2)/m1) - 1
+        fun2 = ((2*(p/(l1*l1)+(1-p)/(l2*l2)))/m2) - 1
+        fun3 = ((6*(p/(l1*l1*l1)+(1-p)/(l2*l2*l2)))/m3) - 1
+        return [fun1, fun2, fun3]
+    hyper_res = opt.root(hyper_eqs, x0=[hyper_p_start, hyper_lambda1_start, hyper_lambda2_start], \
+         args=(first_moment, second_moment, third_moment), method='lm')["x"]
+    print("Hyperexponential | p: %f" % hyper_res[0])
+    print("Hyperexponential | lambda1: %f" % hyper_res[1])
+    print("Hyperexponential | lambda2: %f" % hyper_res[2])
 
     # Hypoexponential: lambda1, lambda2
-    hypo_lambda1 = 1 / (0.3*first_moment)
-    hypo_lambda2 = 1 / (0.7*first_moment)
-    print("Hypoexponential | lambda1: %f" % hypo_lambda1)
-    print("Hypoexponential | lambda2: %f" % hypo_lambda2)
+    hypo_lambda1_start = 1 / (0.3*first_moment)
+    hypo_lambda2_start = 1 / (0.7*first_moment)
+    def hypo_eqs(params, *moments):
+        l1 = params[0]
+        l2 = params[1]
+        m1, m2 = moments
+        fun1 = (1 / (l1 - l2) * (l1 / l2 - l2 / l1)) - m1
+        fun2 = 2 * (1 / (l2 * l2) + 1 / (l1 * l2) + 1 / (l2 * l2)) - m2
+        return [fun1, fun2]
+    hypo_res = opt.root(hypo_eqs, x0=[hypo_lambda1_start, hypo_lambda2_start],
+                         args=(first_moment, second_moment), method='lm')["x"]
+    print("Hypoexponential | lambda1: %f" % hypo_res[0])
+    print("Hypoexponential | lambda2: %f" % hypo_res[1])
 
     # Compute CDF of fitted distributions
     x = np.linspace(0, 50, 5000)
     uniform = (x - a) / (b - a)
     exponential = 1 - np.power(np.e, - (exponential_lambda * x))
     hyperexponential = 1 - \
-        p * np.power(np.e, - (hyper_lambda1 * x)) - \
-        (1-p) * np.power(np.e, - (hyper_lambda2 * x))
+        hyper_res[0] * np.power(np.e, - (hyper_res[1] * x)) - \
+        (1-hyper_res[0]) * np.power(np.e, - (hyper_res[2] * x))
     hypoexponential = 1 - \
-        (hypo_lambda2 * np.power(np.e, - (hypo_lambda1 * x))) / (hypo_lambda2 - hypo_lambda1) + \
-        (hypo_lambda1 * np.power(np.e, - (hypo_lambda2 * x))) / (hypo_lambda2 - hypo_lambda1)
+        (hypo_res[1] * np.power(np.e, - (hypo_res[0] * x))) / (hypo_res[1] - hypo_res[0]) + \
+        (hypo_res[0] * np.power(np.e, - (hypo_res[1] * x))) / \
+        (hypo_res[1] - hypo_res[0])
 
     # Compute CDF of dataset
     ordered_dataset = sorted(dataset)
@@ -89,7 +114,6 @@ def compute_moments(file_name, webserver_id):
     plt.ylim(bottom=0, top=1)
     plt.legend()
     plt.show()
-    # input("Press enter to continue")
 
 def compute_maximum_likelihood(file_name, webserver_id):
     print("Computing indices for %s webserver %s" % (file_name, str(webserver_id)))
@@ -164,12 +188,11 @@ def compute_maximum_likelihood(file_name, webserver_id):
     plt.ylim(bottom=0, top=1)
     plt.legend()
     plt.show()
-    input("Press enter to continue")
 
 def run():
-    compute_maximum_likelihood("L04/Traces.csv", 3)
+    compute_maximum_likelihood("L04/Traces.csv", 2)
     print("---")
-    compute_moments("L04/Traces.csv", 3)
+    compute_moments("L04/Traces.csv", 2)
 
 if __name__ == '__main__':
     run()
