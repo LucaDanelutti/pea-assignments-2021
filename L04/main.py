@@ -190,9 +190,20 @@ def compute_maximum_likelihood(file_name, webserver_id):
     plt.show()
 
 def run():
+    compute_maximum_likelihood("L04/Traces.csv", 1)
+    print("---")
+    compute_moments("L04/Traces.csv", 1)
+    print("---")
     compute_maximum_likelihood("L04/Traces.csv", 2)
     print("---")
     compute_moments("L04/Traces.csv", 2)
+    print("---")
+    compute_maximum_likelihood("L04/Traces.csv", 3)
+    print("---")
+    compute_moments("L04/Traces.csv", 3)
+    compute_maximum_likelihood("L04/Traces.csv", 4)
+    print("---")
+    compute_moments("L04/Traces.csv", 4)
 
 if __name__ == '__main__':
     run()
