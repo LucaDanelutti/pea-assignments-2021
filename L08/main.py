@@ -17,6 +17,7 @@ def compute(total_t):
         ts0 = 0
         ts1 = 0
         ts2 = 0
+        reports = 0
         # State machine logic
         while t<total_t:
             # 0: Normal operation
@@ -41,6 +42,7 @@ def compute(total_t):
                     ds = maintenance
                     ns = 2
                 ts1 += ds
+                reports += 1
             # 2: Maintenance
             if s==2:
                 ns = 0
@@ -48,11 +50,12 @@ def compute(total_t):
                 ts2 += ds
             s = ns
             t += ds
-        return ts0, ts1, ts2
-    ts0, ts1, ts2 = state_machine(total_t)
+        return ts0, ts1, ts2, reports
+    ts0, ts1, ts2, reports = state_machine(total_t)
     print("Probability of normal operation: %f" % (ts0/total_t))
     print("Probability of reporting: %f" %(ts1/total_t))
     print("Probability of maintenance: %f" % (ts2/total_t))
+    print("Reporting frequency: %f" % (reports / total_t))
 
 def run():
     compute(1000000)
