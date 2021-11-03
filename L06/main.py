@@ -68,8 +68,6 @@ def compute(n, k , m, d_confidence):
         utilization = busy_time / (end_time - start_time)
         return utilization
 
-    print("Avg utilization: %f" % compute_utilization(0, completions[-1], arrivals, completions))
-
     # Compute avg. number of jobs
     def compute_num_of_jobs(start_time, end_time, arrivals, completions):
         response_time_cumul = 0
@@ -88,9 +86,14 @@ def compute(n, k , m, d_confidence):
             response_time_cumul += completions[i] - arrivals[i]
         return response_time_cumul / len(completions)
 
+
+    print("Avg. response time: %f" % compute_response_time(0, completions[-1], arrivals, completions))
     compute_confidence_interval("avg. response time", compute_response_time)
+    print("Avg. num of jobs: %f" % compute_num_of_jobs(0, completions[-1], arrivals, completions))
     compute_confidence_interval("avg. number of jobs", compute_num_of_jobs)
+    print("Utilization: %f" % compute_utilization(0, completions[-1], arrivals, completions))
     compute_confidence_interval("utilization", compute_utilization)
+    print("Throughput: %f" % compute_utilization(0, completions[-1], arrivals, completions))
     compute_confidence_interval("throughput", compute_throughput)
 
 def run():
