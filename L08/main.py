@@ -1,7 +1,7 @@
 import random
 import math
 
-def compute(total_t):
+def compute(total_t, d_confidence, k):
     # Generate exponential distributed trace
     def compute_exponential(l):
         def gen_exp():
@@ -57,8 +57,49 @@ def compute(total_t):
     print("Probability of maintenance: %f" % (ts2/total_t))
     print("Reporting frequency: %f" % (reports / total_t))
 
+    # Compute confidence interval
+    def compute_confidence_interval(name, ps, d_confidence, k):
+        values = []
+        for i in range(0, k):
+            values.append(ps[i])
+        # Compute x
+        cumul = 0
+        for i in range(0, k):
+            cumul += values[i]
+        x = 1 / k * cumul
+        # Compute s_square
+        cumul = 0
+        for i in range(0, k):
+            cumul += (values[i] - x) * (values[i] - x)
+        s_square = 1 / (k-1) * cumul
+
+        print("Confidence interval of %s: [%f, %f]" % (name, x - d_confidence * math.pow(
+            s_square / k, 0.5), x + d_confidence * math.pow(s_square / k, 0.5)))
+
+    # Compute k probabilities
+    p0s, p1s, p2s = [], [], []
+    rfs = []
+    for i in range(0, k):
+        ts0, ts1, ts2, reports = state_machine(total_t)
+        p0s.append(ts0/total_t)
+        p1s.append(ts1/total_t)
+        p2s.append(ts2/total_t)
+        rfs.append(reports / total_t)
+
+    # Compute confidence intervals of probabilities
+    compute_confidence_interval("normal execution probability", p0s, d_confidence, k)
+    compute_confidence_interval("reporting probability", p1s, d_confidence, k)
+    compute_confidence_interval("maintenance probability", p2s, d_confidence, k)
+    compute_confidence_interval("report frequency", rfs, d_confidence, k)
+
+    # Compute avgs
+    print("Normal execution probability avg: %f" % (sum(p0s) / k))
+    print("Reporting probability avg: %f" % (sum(p1s) / k))
+    print("Maintenance probability avg: %f" % (sum(p2s) / k))
+    print("Reporting frequency avg: %f" % (sum(rfs) / k))
+
 def run():
-    compute(1000000)
+    compute(1000000, 1.96, 200)
 
 if __name__ == '__main__':
     run()
