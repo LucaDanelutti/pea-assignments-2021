@@ -104,6 +104,12 @@ def compute(total_t, d_confidence, k):
     compute_confidence_interval("second stage", p2s, d_confidence, k)
     compute_confidence_interval("utilization", us, d_confidence, k)
 
+    # Compute avgs
+    print("Empty shop avg: %f" % (sum(p0s) / k))
+    print("First stage avg: %f" % (sum(p1s) / k))
+    print("Second stage avg: %f" % (sum(p2s) / k))
+    print("Utilization avg: %f" % (sum(us) / k))
+
 def run():
     compute(1000000, 1.96, 200)
 
