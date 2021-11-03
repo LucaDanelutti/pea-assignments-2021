@@ -47,7 +47,7 @@ def generate(n):
     hyper_exp["p"] = 0.5
     def gen_hyper_exp():
         rand = random.random()
-        if (rand > hyper_exp["p"]):
+        if (rand < hyper_exp["p"]):
             return - math.log(random.random()) / hyper_exp["l1"]
         return - math.log(random.random()) / hyper_exp["l2"]
     for i in range(0, n):
