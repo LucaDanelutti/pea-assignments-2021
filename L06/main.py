@@ -36,7 +36,7 @@ def compute(n, k , m, d_confidence):
     # Generate arrival trace
     completions = []
     for i in range(0, n):
-        completions.append(arrivals[i] + hypo_exp["dataset"][i])
+        completions.append(max(arrivals[i], 0 if i == 0 else completions[i-1]) + hypo_exp["dataset"][i])
 
     # Compute confidence interval
     def compute_confidence_interval(name, compute_function):
@@ -93,11 +93,11 @@ def compute(n, k , m, d_confidence):
     compute_confidence_interval("avg. number of jobs", compute_num_of_jobs)
     print("Utilization: %f" % compute_utilization(0, completions[-1], arrivals, completions))
     compute_confidence_interval("utilization", compute_utilization)
-    print("Throughput: %f" % compute_utilization(0, completions[-1], arrivals, completions))
+    print("Throughput: %f" % compute_throughput(0, completions[-1], arrivals, completions))
     compute_confidence_interval("throughput", compute_throughput)
 
 def run():
-    compute(10000, 50, 200, 1.96)
+    compute(100000, 50, 2000, 1.96)
 
 if __name__ == '__main__':
     run()
