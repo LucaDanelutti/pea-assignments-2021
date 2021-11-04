@@ -60,7 +60,7 @@ def compute():
 
     # Compute throughput
     print("Throughput: %f" % (y_stationary[0]*l_b_exec_half*1 + y_stationary[1]*l_a_exec_full*1 + 
-        y_stationary[2]*l_b_exec_full*1 + y_stationary[0]*l_b_exec_half*1))
+        y_stationary[2]*l_b_exec_full*1 + y_stationary[0]*l_a_exec_half*1))
 
     # Compute transient y using differential equation
     def compute_avg_number_of_jobs(t):
