@@ -27,9 +27,9 @@ def compute():
     infinitesimal_generator[2][2] = - sum(infinitesimal_generator[2])
     infinitesimal_generator[3][3] = - sum(infinitesimal_generator[3])
 
-    # Define pi(0) initial condition
-    s0 = np.zeros((4))
-    s0[0] = 1
+    # Define u
+    u = np.zeros((4))
+    u[0] = 1
 
     # Define Q'
     infinitesiaml_generator_prime = np.copy(infinitesimal_generator)
@@ -39,12 +39,16 @@ def compute():
     infinitesiaml_generator_prime[3][0] = 1
 
     # Compute stationary solution
-    y_stationary = np.matmul(s0, np.linalg.inv(infinitesiaml_generator_prime))
+    y_stationary = np.matmul(u, np.linalg.inv(infinitesiaml_generator_prime))
 
     # Define differential equation
     def equation(y, x):
         dydt = np.dot(y, infinitesimal_generator)
         return dydt
+
+    # Define pi(0) initial condition
+    s0 = np.zeros((4))
+    s0[0] = 1
 
     # Print probabilities
     print("Stationary probability of Exec-Exec: %f" % y_stationary[0])
