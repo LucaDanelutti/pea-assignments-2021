@@ -86,7 +86,7 @@ def compute():
         # Define x
         x = np.linspace(0, t, t)
         
-        y = np.matmul(s0, scipy.linalg.expm(infinitesimal_generator*t))
+        y = np.matmul(u, scipy.linalg.expm(infinitesimal_generator*t))
 
         print("Avg. number of jobs at t=%d: %f" %
               (t, (2*y[0] + 1*y[1] + 1*y[2])))
