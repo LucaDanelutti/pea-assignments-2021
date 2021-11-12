@@ -10,7 +10,10 @@ def compute(l, d, c):
     print("Average utilization: %f" % u)
 
     # Compute probability of having 4 jobs in the system
-    pi_0 = (1 - p) / (1 + p)
+    summation = 0
+    for i in range(0, c):
+        summation += pow(c*p, i) / math.factorial(i)
+    pi_0 = math.pow(pow(c*p, c) / math.factorial(c) / (1-p) + summation, -1)
     if c <= 4:
         pi_4 = pi_0 * math.pow(c, c) * math.pow(p, 4) / math.factorial(c)
     else:
