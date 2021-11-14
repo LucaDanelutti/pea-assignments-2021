@@ -4,20 +4,20 @@ import numpy as np
 def compute():
     # Generate infinitesimal generator matrix
     infinitesimal_generator = np.zeros((7, 7))
-    infinitesimal_generator[0][2] = 1 / (5 * 0.75 * 0.3)
-    infinitesimal_generator[0][3] = 1 / (5 * 0.25 * 0.3)
-    infinitesimal_generator[0][4] = 1 / (5 * 0.7)
-    infinitesimal_generator[1][2] = 1 / (10 * 0.75 * 0.3)
-    infinitesimal_generator[1][3] = 1 / (10 * 0.25 * 0.3)
-    infinitesimal_generator[1][4] = 1 / (10 * 0.7)
-    infinitesimal_generator[2][0] = 1 / (1 * 0.4)
-    infinitesimal_generator[2][1] = 1 / (1 * 0.6)
-    infinitesimal_generator[3][0] = 1 / (20 * 0.4)
-    infinitesimal_generator[3][1] = 1 / (20 * 0.6)
-    infinitesimal_generator[4][5] = 1 / 8
-    infinitesimal_generator[5][6] = 1 / 8
-    infinitesimal_generator[6][0] = 1 / (8 * 0.4)
-    infinitesimal_generator[6][1] = 1 / (8 * 0.6)
+    infinitesimal_generator[0][2] = (5 * 0.75 * 0.3)
+    infinitesimal_generator[0][3] = (5 * 0.25 * 0.3)
+    infinitesimal_generator[0][4] = (5 * 0.7)
+    infinitesimal_generator[1][2] = (10 * 0.75 * 0.3)
+    infinitesimal_generator[1][3] = (10 * 0.25 * 0.3)
+    infinitesimal_generator[1][4] = (10 * 0.7)
+    infinitesimal_generator[2][0] = (1 * 0.4)
+    infinitesimal_generator[2][1] = (1 * 0.6)
+    infinitesimal_generator[3][0] = (20 * 0.4)
+    infinitesimal_generator[3][1] = (20 * 0.6)
+    infinitesimal_generator[4][5] = 8
+    infinitesimal_generator[5][6] = 8
+    infinitesimal_generator[6][0] = (8 * 0.4)
+    infinitesimal_generator[6][1] = (8 * 0.6)
 
     for i in range(0, 7):
         infinitesimal_generator[i][i] = - sum(infinitesimal_generator[i])
