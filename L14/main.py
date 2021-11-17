@@ -51,7 +51,9 @@ def compute_with_capacity(l, d, c, k):
         for i in range(0, c):
             sum += pow(c*p, i) / math.factorial(i)
         pi_0 = math.pow(pow(c*p, c) / math.factorial(c) / (1-p) * (1 - pow(p, k - c + 1)) + sum, -1)
-        if n <= c:
+        if n == 0:
+            pi = pi_0
+        elif n < c:
             pi = pi_0 / math.factorial(n) * math.pow(c * p, n)
         elif n <= k:
             pi = pi_0 * math.pow(c, c) * math.pow(p, n) / math.factorial(c)
@@ -60,12 +62,12 @@ def compute_with_capacity(l, d, c, k):
         return pi
 
     # Compute average utilization
-    sum = 0
-    for i in range(1, c):
-        sum += i * compute_probability_n_jobs(i)
-    for i in range(c, k+1):
-        sum += c * compute_probability_n_jobs(i)
-    u = sum
+    u = 0
+    for i in range(1, c+1):
+        u += i * compute_probability_n_jobs(i)
+    for i in range(c+1, k+1):
+        u += c * compute_probability_n_jobs(i)
+    u = u / c
     print("Average utilization: %f" % u)
 
     # Compute probability of having 4 jobs in the system
@@ -98,7 +100,7 @@ def run():
     compute(0.9, 1.0, 1)
 
     # ES2 MM2 l=01.8j/s D=1s
-    print("ES1")
+    print("ES2")
     compute_with_capacity(1.8, 1.0, 2, 6)
     # Compare with a MM2
     compute(1.8, 1.0, 2)
