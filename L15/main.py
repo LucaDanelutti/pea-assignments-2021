@@ -38,7 +38,7 @@ def compute_gg2(a, b, p1, u1, u2):
     # Compute variance and coefficient of variation
     # Uniform
     var = pow((b - a), 2)/12
-    ca2 = var / pow(l, 2)
+    ca2 = var / pow(1 / l, 2)
     # Hyperexp
     m2 = 2 * (p1 / pow(u1, 2) + (1-p1) / pow(u2, 2))
     var = m2 - pow(d, 2)
