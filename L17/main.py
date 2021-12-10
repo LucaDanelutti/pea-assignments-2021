@@ -34,7 +34,7 @@ def compute():
     u[0] = d[0] * l1
     u[1] = d[1] * l1
     u[2] = d[2] * l1
-    print("Utilizations: server1 %f, server2 %f, server3 %f -> system is %s stable" % (u[0], u[1], u[2], "" if all(u) < 1 else "NOT"))
+    print("Utilizations: server1 %f, server2 %f, server3 %f -> system is %s stable" % (u[0], u[1], u[2], "" if all(u < 1) else "NOT"))
 
 def run():
     compute()
