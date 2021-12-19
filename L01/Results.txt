@@ -1,0 +1,23 @@
+Trace: DataSet1.csv
+Arrival Rate: 0.0969932, Throughput 0.0969932
+Busy time: 688
+Utilization: 0.667313
+W: 849
+Average Service Time: 6.88
+Average Number of jobs: 0.823472
+Average Response Time: 8.49
+Pr(N=0): 0.324927, Pr(N=1): 0.520854, Pr(N=2): 0.13676, Pr(N=3): 0.00969932
+Pr(R<1): 0, Pr(R<10): 0.62, Pr(R<50): 1
+
+
+Trace: DataSet2.csv
+Arrival Rate: 0.0959302, Throughput 0.0959302
+Busy time: 826
+Utilization: 0.800388
+W: 8679
+Average Service Time: 8.34343
+Average Number of jobs: 8.40988
+Average Response Time: 87.6667
+Pr(N=0): 0.199612, Pr(N=1): 0.0416667, Pr(N=2): 0.0397287, Pr(N=3): 0.0290698
+Pr(R<1): 0.010101, Pr(R<10): 0.0606061, Pr(R<50): 0.232323
+

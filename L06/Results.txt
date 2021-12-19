@@ -1,0 +1,8 @@
+R : [43.5955, 57.226]
+N : [2.87847, 3.866]
+U : [0.764503, 0.807786]
+X : [0.0647888, 0.0675357]
+
+ Disclaimer: since random numbers are involved
+ your results will be different.
+ However, they should look similar.
