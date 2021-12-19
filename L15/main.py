@@ -3,9 +3,7 @@ def compute_mg1(l, p1, u1, u2):
     print("--- MG1 with l = %f, service time hyperexp with p1 = %f, u1 = %f, u2 = %f ---" % (l, p1, u1, u2))
     # Compute mean service time (d) and service time rate (mi)
     d = p1 / u1 + (1 - p1) / u2
-    print(d)
     mi = 1 / d
-    print(mi)
 
     # Compute variance and coefficient of variation
     m2 = 2 * (p1 / pow(u1, 2) + (1-p1) / pow(u2, 2))
