@@ -12,8 +12,8 @@ def compute():
     infinitesimal_generator[1][4] = (10 * 0.7)
     infinitesimal_generator[2][0] = (1 * 0.4)
     infinitesimal_generator[2][1] = (1 * 0.6)
-    infinitesimal_generator[3][0] = (20 * 0.4)
-    infinitesimal_generator[3][1] = (20 * 0.6)
+    infinitesimal_generator[3][0] = (0.2 * 0.4)
+    infinitesimal_generator[3][1] = (0.2 * 0.6)
     infinitesimal_generator[4][5] = 8
     infinitesimal_generator[5][6] = 8
     infinitesimal_generator[6][0] = (8 * 0.4)
